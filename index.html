@@ -3,11 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello World</title>
+  <title>JavaScript Example</title>
 </head>
 <body>
 
-  <h1>Hello, World!</h1>
+<!-- Tämä on paikka, jossa tulostetaan tulos -->
+<p id="tulos"></p>
+
+<script>
+  // Määritellään muuttujat
+  var v1 = "Haloo";
+  var v2 = "Maailma!";
+
+  // Muodostetaan merkkijono
+  var tulos = "<h1>" + v1 + " " + v2 + "</h1>";
+
+  // Näytetään tulos HTML-elementissä
+  document.getElementById("tulos").innerHTML = tulos;
+
+  // Tulosta tulos myös konsoliin
+  console.log(tulos);
+</script>
 
 </body>
 </html>
