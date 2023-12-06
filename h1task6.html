@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Array Operations</title>
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <script>
+    let taulukko = [11, 22, 33, 44];
+    let summa = 0;
+    let lukumaara = 0;
+    let keskiarvo;
+    let tulosrivit = '';
+
+    for (let luku of taulukko) {
+      summa += luku;
+      lukumaara++;
+    }
+
+    keskiarvo = summa / lukumaara;
+
+    for (let i = 0; i < taulukko.length; i++) {
+      tulosrivit += `<tr><td>Taulukko[${i}] = ${taulukko[i]}</td></tr>`;
+    }
+
+    document.write(`
+      <p>Taulukon alkiot ovat</p>
+      <table>
+        ${tulosrivit}
+      </table>
+      <hr>
+      <p>Taulukon alkioiden lukumäärä: ${lukumaara}</p>
+      <p>Taulukon alkioiden summa: ${summa}</p>
+      <p>Taulukon alkioiden keskiarvo: ${keskiarvo.toFixed(1)}</p>
+    `);
+  </script>
+
+</body>
+</html>
