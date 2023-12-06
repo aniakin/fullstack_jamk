@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adder</title>
+</head>
+<body>
+
+  <h2><strong>Laske luvut yhteen</strong></h2>
+
+  <form id="f">
+    <input type="text" id="n1" placeholder="Syötä luku 1"><br>
+    <input type="text" id="n2" placeholder="Syötä luku 2"><br>
+    <button type="button" onclick="tulostaSumma(f.n1.value, f.n2.value)">Laske</button>
+  </form>
+
+  <div id="results"></div>
+
+  <script>
+    function laskeSumma(a, b) {
+      return parseInt(a) + parseInt(b);
+    }
+
+    function tulostaSumma(a, b) {
+      var summa = laskeSumma(a, b);
+
+      document.getElementById("results").innerHTML = `Summa: ${summa}`;
+    }
+  </script>
+
+</body>
+</html>
