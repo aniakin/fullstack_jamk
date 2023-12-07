@@ -1,5 +1,5 @@
 function changeImage(imageName) {
-    const displayedImage = document.getElementById('displayedImage');
-    displayedImage.src = `images/${imageName}`;
+    const mainImage = document.getElementById('main-image');
+    mainImage.src = `images/${imageName}`;
   }
   
