@@ -5,6 +5,8 @@ body {
   }
   
   #link-container {
+    display: flex;
+    justify-content: center;
     margin-bottom: 20px;
   }
   
@@ -17,6 +19,7 @@ body {
     text-decoration: none;
     border-radius: 5px;
     cursor: pointer;
+    border: 1px solid #3498db;
   }
   
   a:hover {
@@ -24,7 +27,8 @@ body {
   }
   
   #image-container {
-    margin-top: 20px;
+    border: 1px solid #3498db;
+    padding: 10px;
   }
   
   #main-image {
