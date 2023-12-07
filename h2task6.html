@@ -10,6 +10,10 @@
       text-align: center;
       margin: 50px;
     }
+    label {
+      display: block;
+      margin: 10px 0;
+    }
     input {
       padding: 8px;
       margin: 5px;
@@ -21,10 +25,10 @@
   <h1>Vauhtilaskin</h1>
 
   <form id="vauhtilaskinForm">
-    <label>Matka (km):</label>
+    <label for="matkaInput">Matka (km):</label>
     <input type="number" id="matkaInput" value="10">
     <br>
-    <label>Aika (h):</label>
+    <label for="aikaInput">Aika (h):</label>
     <input type="number" id="aikaInput" value="1">
     <br>
     <button type="button" onclick="laskeVauhti()">Laske vauhti</button>
