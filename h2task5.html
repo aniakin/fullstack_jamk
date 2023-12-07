@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Person Funktio</title>
+</head>
+<body>
+
+  <script>
+    function Person(name, age, phone, email) {
+      this.name = name;
+      this.age = age;
+      this.phone = phone;
+      this.email = email;
+
+      this.birthday = function() {
+        this.age++;
+      };
+    }
+
+    const person1 = new Person('Immanuel Kant', 75, '050-1254201', 'kant@gmail.com');
+    const person2 = new Person('Lao Tzu', 54, '050-1254202', 'tzu@gmail.com');
+    const person3 = new Person('Friedrich Nietzsche', 62, '050-1254203', 'nietzsche@gmail.com');
+
+    console.log('Person 1:', person1);
+    console.log('Person 2:', person2);
+    console.log('Person 3:', person3);
+
+    person1.birthday();
+    person2.birthday();
+    person3.birthday();
+
+    console.log('Person 1 after birthday:', person1);
+    console.log('Person 2 after birthday:', person2);
+    console.log('Person 3 after birthday:', person3);
+  </script>
+
+</body>
+</html>
