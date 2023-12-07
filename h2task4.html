@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OMG Lady Gaga</title>
+</head>
+<body>
+
+  <script>
+    const addText = (text) => {
+      const p = document.createElement('p');
+      p.textContent = text;
+      document.body.appendChild(p);
+    };
+
+    addText('OMG - Lady Gaga starts singing!');
+
+    const fireworksInterval = setInterval(() => {
+      addText('NICE - fireworks!');
+    }, 5000); 
+
+    setTimeout(() => {
+      clearInterval(fireworksInterval); 
+      addText('WOW - It was the best concert in my life....');
+    }, 10000); 
+  </script>
+
+</body>
+</html>
