@@ -14,19 +14,19 @@ body {
     align-items: center;
   }
   
-  #image-container {
-    margin-bottom: 10px;
-  }
-  
-  #main-image {
-    width: 300px; 
-    height: auto;
-  }
-  
   #buttons a {
     margin-right: 10px;
     text-decoration: none;
     color: #000;
     cursor: pointer;
+  }
+  
+  #image-container {
+    margin-top: 10px;
+  }
+  
+  #main-image {
+    width: 300px; /* Adjust the width as needed */
+    height: auto;
   }
   
