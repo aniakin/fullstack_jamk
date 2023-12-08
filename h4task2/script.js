@@ -14,8 +14,8 @@ async function renderHouses() {
     let checkbox1 = document.createElement('input');
     checkbox1.type = 'checkbox';
     checkbox1.id = 'filterSize';
-    checkbox1.addEventListener('change', updateView);
-    
+    checkbox1.addEventListener('change', () => updateView()); // Use an arrow function to ensure 'this' is properly set
+
     let label1 = document.createElement('label');
     label1.for = 'filterSize';
     label1.innerHTML = 'Näytä alle 200m2';
@@ -23,8 +23,8 @@ async function renderHouses() {
     let checkbox2 = document.createElement('input');
     checkbox2.type = 'checkbox';
     checkbox2.id = 'filterPrice';
-    checkbox2.addEventListener('change', updateView);
-    
+    checkbox2.addEventListener('change', () => updateView()); // Use an arrow function to ensure 'this' is properly set
+
     let label2 = document.createElement('label');
     label2.for = 'filterPrice';
     label2.innerHTML = 'Näytä alle 1 000 000 €';
