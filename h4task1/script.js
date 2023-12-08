@@ -21,7 +21,7 @@ async function renderHouses() {
         housecontainer.className = 'houseContainer';
 
         let image = document.createElement('img');
-        image.src = 'images/' + house.image; 
+        image.src = 'h4task1/images/' + house.image; 
         image.className = 'houseImage';
 
         let header = document.createElement('p');
