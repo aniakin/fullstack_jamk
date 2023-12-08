@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juhlaväri</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        #colorSelector {
+            margin-bottom: 10px;
+        }
+
+        #textInput {
+            margin-bottom: 10px;
+        }
+
+        #resultArea {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        #changeColorButton {
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <label for="colorSelector">Valitse juhlaväri:</label>
+    <select id="colorSelector">
+        <option value="" disabled selected>Valitse väri</option>
+        <option value="#ff0">Keltainen</option>
+        <option value="#f00">Punainen</option>
+        <option value="#00f">Sininen</option>
+    </select>
+
+    <label for="textInput">Mikä juhla?</label>
+    <input type="text" id="textInput" placeholder="Kirjoita teksti">
+
+    <button id="changeColorButton">Vaihda valittu taustaväri</button>
+
+    <div id="resultArea">
+        <strong>Tulosalue</strong>
+        <p id="colorCodeText">Valittu värikoodi: </p>
+        <p id="mikaJuhlaText">Mikä juhla: </p>
+    </div>
+
+    <script>
+        const colorSelector = document.getElementById('colorSelector');
+        const textInput = document.getElementById('textInput');
+        const colorCodeText = document.getElementById('colorCodeText');
+        const mikaJuhlaText = document.getElementById('mikaJuhlaText');
+        const resultArea = document.getElementById('resultArea');
+        const changeColorButton = document.getElementById('changeColorButton');
+
+        colorSelector.addEventListener('change', updateColorCode);
+        textInput.addEventListener('input', updateText);
+        textInput.addEventListener('keypress', validateInput);
+
+        function updateColorCode() {
+            const selectedColor = colorSelector.value;
+            colorCodeText.textContent = `Valittu värikoodi: ${selectedColor}`;
+        }
+
+        function updateText() {
+            const enteredText = textInput.value;
+            mikaJuhlaText.textContent = `Mikä juhla: ${enteredText}`;
+        }
+
+        function validateInput(event) {
+            const keyCode = event.which || event.keyCode;
+            if (keyCode >= 48 && keyCode <= 57) {
+                event.preventDefault();
+            }
+        }
+
+        changeColorButton.addEventListener('click', updateResultArea);
+
+        function updateResultArea() {
+            const selectedColor = colorSelector.value;
+            resultArea.style.backgroundColor = selectedColor;
+            updateColorCode();  
+        }
+    </script>
+</body>
+</html>
