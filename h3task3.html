@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arvosana</title>
+
+  <style>
+    table {
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var inputFields = document.querySelectorAll('.pisteet');
+
+      inputFields.forEach(function (field) {
+        field.addEventListener('input', function () {
+          calculateTotalAndGrade();
+        });
+      });
+    });
+
+    function calculateTotalAndGrade() {
+      var totalPoints = 0;
+      var error = false;
+
+      var inputFields = document.querySelectorAll('.pisteet');
+      inputFields.forEach(function (field) {
+        var points = parseInt(field.value) || 0;
+
+        if (isNaN(points) || points < 0 || points > 6) {
+          field.nextElementSibling.textContent = 'VIRHE!';
+          error = true;
+        } else {
+          field.nextElementSibling.textContent = '';
+        }
+
+        totalPoints += points;
+      });
+
+      if (!error) {
+        document.getElementById('yhteispisteet').textContent = totalPoints;
+        document.getElementById('arvosana').textContent = calculateGrade(totalPoints);
+      } else {
+        document.getElementById('yhteispisteet').textContent = '';
+        document.getElementById('arvosana').textContent = '';
+      }
+    }
+
+    function calculateGrade(points) {
+      if (points >= 0 && points <= 12) return 0;
+      if (points <= 15) return 1;
+      if (points <= 17) return 2;
+      if (points <= 19) return 3;
+      if (points <= 21) return 4;
+      if (points <= 24) return 5;
+    }
+  </script>
+</head>
+<body>
+  <table>
+    <tr>
+      <th>Tehtävä 1</th>
+      <th>Tehtävä 2</th>
+      <th>Tehtävä 3</th>
+      <th>Tehtävä 4</th>
+    </tr>
+    <tr>
+      <td><input class="pisteet" type="text"></td>
+      <td><input class="pisteet" type="text"></td>
+      <td><input class="pisteet" type="text"></td>
+      <td><input class="pisteet" type="text"></td>
+    </tr>
+  </table>
+
+  <p>Yhteispisteet: <span id="yhteispisteet"></span></p>
+  <p>Arvosana: <span id="arvosana"></span></p>
+</body>
+</html>
