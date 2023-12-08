@@ -42,4 +42,5 @@ async function getHouses() {
     });
   }
   
-  renderHouses();  
+  renderHouses();
+  
