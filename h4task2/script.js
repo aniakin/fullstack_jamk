@@ -39,7 +39,7 @@ async function renderHouses() {
         const showByPrice = !checkbox2.checked || (checkbox2.checked && house.price < 1000000);
 
         if (showBySize && showByPrice) {
-            housecontainer = document.createElement('div');
+            let housecontainer = document.createElement('div'); // Declare with let
             housecontainer.className = 'houseContainer';
 
             let image = document.createElement('img');
