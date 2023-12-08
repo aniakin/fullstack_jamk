@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tulosta Tasoitukset</title>
+
+  <style>
+    body {
+      font-family: Helvetica, sans-serif;
+      text-align: center;
+      margin-top: 80px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      margin: 5px;
+      font-size: 13px;
+    }
+  </style>
+
+  <script>
+    var hcpdata = [
+      { "name": "Ari", "hcp": 54 },
+      { "name": "Pasi", "hcp": 5 },
+      { "name": "Seppo", "hcp": 20 }
+    ];
+
+    function tulostaTasoitukset() {
+      var hcplist = document.getElementById('hcplist');
+
+      if (hcplist.children.length === 0) {
+        for (var i = 0; i < hcpdata.length; i++) {
+          var player = hcpdata[i];
+          var listItem = document.createElement('li');
+          listItem.textContent = player.name + ' ' + player.hcp;
+          hcplist.appendChild(listItem);
+        }
+      }
+    }
+  </script>
+</head>
+<body>
+  <button onclick="tulostaTasoitukset()">Tulosta tasoitukset</button>
+  <ul id="hcplist"></ul>
+</body>
+</html>
