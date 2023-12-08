@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple ToDo</title>
+
+  <style>
+    ul {
+      list-style-type: disc;
+      padding: 6;
+    }
+
+    li {
+      margin-bottom: 5px;
+    }
+
+    input {
+      margin-bottom: 10px;
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const addButton = document.getElementById('lisaaButton');
+      const clearButton = document.getElementById('tyhjaaButton');
+      const list = document.getElementById('lista');
+      const input = document.getElementById('tehtava');
+
+      addButton.addEventListener('click', function () {
+        const task = input.value.trim();
+        if (task !== '') {
+          const listItem = document.createElement('li');
+          listItem.textContent = task;
+
+          listItem.addEventListener('click', function () {
+            listItem.remove();
+          });
+
+          list.appendChild(listItem);
+          input.value = '';
+        }
+      });
+
+      clearButton.addEventListener('click', function () {
+        list.innerHTML = '';
+      });
+    });
+  </script>
+</head>
+<body>
+  <h2>Simple ToDo</h2>
+  <input type="text" id="tehtava" placeholder="Kirjoita tehtävä">
+  <br>
+  <button id="lisaaButton">Lisää</button>
+  <button id="tyhjaaButton">Tyhjää lista</button>
+  <ul id="lista"></ul>
+</body>
+</html>
+
+
