@@ -1,3 +1,9 @@
+async function getHouses() {
+    const response = await fetch('talotiedot.json');
+    const data = await response.json();
+    return data;
+}
+
 async function renderHouses() {
     let houses = await getHouses();
     console.log(houses);
