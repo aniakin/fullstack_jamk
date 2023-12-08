@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kokeen arviointi</title>
+  <title>Pistemäärä ja arvosana</title>
 
   <style>
     table {
       border-collapse: collapse;
-      margin-top: 20px;
+      margin-top: 15px;
     }
 
     th, td {
-      border: 1px solid black;
-      padding: 8px;
+      border: 2px solid black;
+      padding: 6px;
       text-align: center;
     }
   </style>
@@ -31,11 +31,66 @@
           var errorElement = field.nextElementSibling;
           if (!errorElement) {
             errorElement = document.createElement('span');
-            errorElement.style.color = 'red';
+            errorElement.style.color = 'blue';
             field.parentNode.appendChild(errorElement);
           }
           errorElement.textContent = 'VIRHE!';
           error = true;
         } else {
           var errorElement = field.nextElementSibling;
-          if (errorElement
+          if (errorElement) {
+            errorElement.textContent = '';
+          }
+        }
+
+        totalPoints += points;
+      });
+
+      var totalElement = document.getElementById('yhteispisteet');
+      var gradeElement = document.getElementById('arvosana');
+
+      if (totalElement && gradeElement) {
+        if (!error) {
+          totalElement.textContent = totalPoints;
+          gradeElement.textContent = calculateGrade(totalPoints);
+        } else {
+          totalElement.textContent = '';
+          gradeElement.textContent = '';
+        }
+      }
+    }
+
+    function calculateGrade(points) {
+      if (points >= 0 && points <= 12) return 0;
+      if (points <= 15) return 1;
+      if (points <= 17) return 2;
+      if (points <= 19) return 3;
+      if (points <= 21) return 4;
+      if (points <= 24) return 5;
+    }
+
+    function handleBlur() {
+      calculateTotalAndGrade();
+    }
+  </script>
+</head>
+<body>
+  <table>
+    <tr>
+      <th>Tehtävä 1</th>
+      <th>Tehtävä 2</th>
+      <th>Tehtävä 3</th>
+      <th>Tehtävä 4</th>
+    </tr>
+    <tr>
+      <td><input class="pisteet" type="text" onblur="handleBlur()"></td>
+      <td><input class="pisteet" type="text" onblur="handleBlur()"></td>
+      <td><input class="pisteet" type="text" onblur="handleBlur()"></td>
+      <td><input class="pisteet" type="text" onblur="handleBlur()"></td>
+    </tr>
+  </table>
+
+  <p>Yhteispisteet: <span id="yhteispisteet"></span></p>
+  <p>Arvosana: <span id="arvosana"></span></p>
+</body>
+</html>
