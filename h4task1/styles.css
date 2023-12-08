@@ -1,7 +1,6 @@
 #houses {
     width: 600px;
     height: 800px;
-    display: flex;
     text-align: left;
     overflow-y: auto;
     margin: 10px;
