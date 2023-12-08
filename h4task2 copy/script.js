@@ -37,7 +37,7 @@ async function renderHouses() {
           housecontainer.className = 'houseContainer';
 
           let image = document.createElement('img');
-          image.src = house.image;
+          image.src = 'images/' + house.image;
           image.className = 'houseImage';
 
           let header = document.createElement('p');
@@ -62,10 +62,8 @@ async function renderHouses() {
   });
 }
 
-// Päivitä näkymä aina kun valintaruutu muuttuu
 function updateView() {
   renderHouses();
 }
 
-// Kutsu renderHouses funktiota sivun latautuessa
 document.addEventListener('DOMContentLoaded', renderHouses);
