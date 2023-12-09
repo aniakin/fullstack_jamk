@@ -124,12 +124,13 @@
 
     // Handle selection when Enter is pressed
     function selectResult() {
-      const selectedResult = searchResults.querySelector('li.highlight');
-      if (selectedResult) {
-        searchInput.value = selectedResult.textContent;
-        resetSearch();
+        const selectedResult = searchResults.querySelector('li.highlight');
+        if (selectedResult) {
+          searchInput.value = selectedResult.textContent;
       }
-    }
+        resetSearch();
+        searchInput.focus(); // Ensure the input field retains focus after selection
+    }   
 
     // Update the visual highlight of the selected result
     function updateSelectedResult() {
