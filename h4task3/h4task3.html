@@ -28,7 +28,7 @@
       background-color: #e0e0e0;
     }
   </style>
-  <title>Etunimihaku</title>
+  <title>Name Search</title>
 </head>
 <body>
 
@@ -70,12 +70,7 @@
         updateSelectedResult();
       } else if (event.key === 'Enter') {
         event.preventDefault();
-        const selectedResult = searchResults.querySelector('li.highlight');
-        if (selectedResult) {
-          searchInput.value = selectedResult.textContent;
-          resetSearch();
-          searchInput.focus();
-        }
+        selectResult();
       } else if (event.key === 'Escape') {
         resetSearch();
       }
@@ -83,7 +78,6 @@
 
     // Event listener for mousedown on the search results
     searchResults.addEventListener('mousedown', function(event) {
-      event.preventDefault(); // Prevents the click from triggering a blur on the input
       const target = event.target;
       if (target.tagName === 'LI') {
         searchInput.value = target.textContent;
@@ -148,6 +142,16 @@
         } else {
           results[i].classList.remove('highlight');
         }
+      }
+    }
+
+    // Handle selection when Enter is pressed
+    function selectResult() {
+      const selectedResult = searchResults.querySelector('li.highlight');
+      if (selectedResult) {
+        searchInput.value = selectedResult.textContent;
+        resetSearch();
+        searchInput.focus();
       }
     }
   </script>
