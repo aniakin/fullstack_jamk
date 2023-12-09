@@ -24,10 +24,8 @@ async function renderHouses() {
     });
 
     // Add event listener to housediv for checkbox changes
-    housediv.addEventListener('change', function (event) {
-        if (event.target.type === 'checkbox') {
-            updateView();
-        }
+    housediv.addEventListener('change', function () {
+        updateView();
     });
 }
 
@@ -62,18 +60,4 @@ function createHouseContainer(house) {
 
     let priceText = document.createElement('p');
     priceText.className = 'text';
-    priceText.innerHTML = 'Hinta: ' + new Intl.NumberFormat('fi-FI').format(house.price) + ' €';
-
-    housecontainer.appendChild(image);
-    housecontainer.appendChild(header);
-    housecontainer.appendChild(sizeText);
-    housecontainer.appendChild(priceText);
-
-    return housecontainer;
-}
-
-function updateView() {
-    renderHouses();
-}
-
-document.addEventListener('DOMContentLoaded', renderHouses);
+    priceText.innerHTML = 'Hinta: ' + new Intl.NumberFormat('fi-FI').format(house.price)
