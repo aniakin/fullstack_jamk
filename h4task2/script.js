@@ -9,12 +9,12 @@ async function renderHouses() {
     console.log(houses);
 
     let housediv = document.getElementById("houses");
-    housediv.innerHTML = ""; 
+    housediv.innerHTML = "";
 
     let checkbox1 = document.createElement('input');
     checkbox1.type = 'checkbox';
     checkbox1.id = 'filterSize';
-    checkbox1.addEventListener('change', updateView); 
+    checkbox1.addEventListener('change', updateView);
 
     let label1 = document.createElement('label');
     label1.for = 'filterSize';
@@ -23,7 +23,7 @@ async function renderHouses() {
     let checkbox2 = document.createElement('input');
     checkbox2.type = 'checkbox';
     checkbox2.id = 'filterPrice';
-    checkbox2.addEventListener('change', updateView); 
+    checkbox2.addEventListener('change', updateView);
 
     let label2 = document.createElement('label');
     label2.for = 'filterPrice';
@@ -35,11 +35,11 @@ async function renderHouses() {
     housediv.appendChild(label2);
 
     houses.forEach(house => {
-        const showBySize = !checkbox1.checked || (checkbox1.checked && house.size < 200);
-        const showByPrice = !checkbox2.checked || (checkbox2.checked && house.price < 1000000);
+        let showBySize = checkbox1.checked ? house.size < 200 : true;
+        let showByPrice = checkbox2.checked ? house.price < 1000000 : true;
 
         if (showBySize && showByPrice) {
-            let housecontainer = document.createElement('div'); 
+            let housecontainer = document.createElement('div');
             housecontainer.className = 'houseContainer';
 
             let image = document.createElement('img');
