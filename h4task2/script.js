@@ -14,7 +14,6 @@ async function renderHouses() {
     let checkbox1 = document.createElement('input');
     checkbox1.type = 'checkbox';
     checkbox1.id = 'filterSize';
-    checkbox1.addEventListener('change', updateView); 
 
     let label1 = document.createElement('label');
     label1.for = 'filterSize';
@@ -24,7 +23,6 @@ async function renderHouses() {
     let checkbox2 = document.createElement('input');
     checkbox2.type = 'checkbox';
     checkbox2.id = 'filterPrice';
-    checkbox2.addEventListener('change', updateView); 
 
     let label2 = document.createElement('label');
     label2.for = 'filterPrice';
@@ -52,25 +50,4 @@ async function renderHouses() {
             header.innerHTML = house.address;
 
             let sizeText = document.createElement('p');
-            sizeText.className = 'text';
-            sizeText.innerHTML = 'Pinta-ala: ' + house.size + ' m²';
-
-            let priceText = document.createElement('p');
-            priceText.className = 'text';
-            priceText.innerHTML = 'Hinta: ' + new Intl.NumberFormat('fi-FI').format(house.price) + ' €';
-
-            housecontainer.appendChild(image);
-            housecontainer.appendChild(header);
-            housecontainer.appendChild(sizeText);
-            housecontainer.appendChild(priceText);
-
-            housediv.appendChild(housecontainer);
-        }
-    });
-}
-
-function updateView() {
-    renderHouses();
-}
-
-document.addEventListener('DOMContentLoaded', renderHouses);
+            sizeTe
