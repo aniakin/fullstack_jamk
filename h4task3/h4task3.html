@@ -28,7 +28,7 @@
       background-color: #e0e0e0;
     }
   </style>
-  <title>Etunimihaku</title>
+  <title>Name Search</title>
 </head>
 <body>
 
@@ -50,22 +50,26 @@
       .catch(error => console.error('Error fetching names:', error));
 
     // Event listener for keyup on the search input
-    searchInput.addEventListener('keyup', function(event) {
-      const searchTerm = event.target.value.toLowerCase();
+    searchInput.addEventListener('input', function() {
+      const searchTerm = searchInput.value.toLowerCase();
       const filteredNames = names.filter(name => name.toLowerCase().startsWith(searchTerm));
       renderSearchResults(filteredNames, searchTerm);
     });
 
     // Event listener for keydown on the search input
     searchInput.addEventListener('keydown', function(event) {
+      const results = searchResults.children;
+
       if (event.key === 'ArrowDown') {
         event.preventDefault();
-        navigateResults(1);
+        selectedResultIndex = (selectedResultIndex + 1) % results.length;
+        updateSelectedResult();
       } else if (event.key === 'ArrowUp') {
         event.preventDefault();
-        navigateResults(-1);
+        selectedResultIndex = (selectedResultIndex - 1 + results.length) % results.length;
+        updateSelectedResult();
       } else if (event.key === 'Enter') {
-        event.preventDefault(); // Prevent default form submission behavior
+        event.preventDefault();
         selectResult();
       } else if (event.key === 'Escape') {
         resetSearch();
@@ -123,8 +127,8 @@
       const selectedResult = searchResults.querySelector('li.highlight');
       if (selectedResult) {
         searchInput.value = selectedResult.textContent;
+        resetSearch();
       }
-      resetSearch();
     }
 
     // Update the visual highlight of the selected result
@@ -136,15 +140,6 @@
         } else {
           results[i].classList.remove('highlight');
         }
-      }
-    }
-
-    // Navigate through the results with arrow keys
-    function navigateResults(direction) {
-      const results = searchResults.children;
-      if (results.length > 0) {
-        selectedResultIndex = (selectedResultIndex + direction + results.length) % results.length;
-        updateSelectedResult();
       }
     }
   </script>
