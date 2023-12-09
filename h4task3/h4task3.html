@@ -83,6 +83,7 @@
         searchInput.value = target.textContent;
         resetSearch();
         searchInput.focus();
+        event.preventDefault(); // Prevent the mousedown event from interfering with keydown
       }
     });
 
