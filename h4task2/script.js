@@ -11,43 +11,69 @@ async function renderHouses() {
     let housediv = document.getElementById("houses");
     housediv.innerHTML = "";
 
-    let checkbox1 = document.createElement('input');
-    checkbox1.type = 'checkbox';
-    checkbox1.id = 'filterSize';
+    let checkbox1 = createCheckbox('filterSize', 'Näytä alle 200m2');
+    let checkbox2 = createCheckbox('filterPrice', 'Näytä alle 1 000 000 €');
 
-    let label1 = document.createElement('label');
-    label1.for = 'filterSize';
-    label1.innerHTML = 'Näytä alle 200m2';
-    label1.appendChild(checkbox1);
-
-    let checkbox2 = document.createElement('input');
-    checkbox2.type = 'checkbox';
-    checkbox2.id = 'filterPrice';
-
-    let label2 = document.createElement('label');
-    label2.for = 'filterPrice';
-    label2.innerHTML = 'Näytä alle 1 000 000 €';
-    label2.appendChild(checkbox2);
-
-    housediv.appendChild(label1);
-    housediv.appendChild(document.createElement('br'));
-    housediv.appendChild(label2);
+    housediv.appendChild(checkbox1);
+    housediv.appendChild(checkbox2);
 
     houses.forEach(house => {
         const showBySize = !checkbox1.checked || (checkbox1.checked && house.size < 200);
         const showByPrice = !checkbox2.checked || (checkbox2.checked && house.price < 1000000);
 
         if (showBySize && showByPrice) {
-            let housecontainer = document.createElement('div');
-            housecontainer.className = 'houseContainer';
+            let housecontainer = createHouseContainer(house);
+            housediv.appendChild(housecontainer);
+        }
+    });
+}
 
-            let image = document.createElement('img');
-            image.src = 'images/' + house.image;
-            image.className = 'houseImage';
+function createCheckbox(id, label) {
+    let checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = id;
+    checkbox.addEventListener('change', updateView); // Add event listener
 
-            let header = document.createElement('p');
-            header.className = 'header';
-            header.innerHTML = house.address;
+    let labelElement = document.createElement('label');
+    labelElement.for = id;
+    labelElement.innerHTML = label;
+    labelElement.appendChild(checkbox);
 
-            let sizeText = document.createElement('p');
-            sizeTe
+    return labelElement;
+}
+
+function createHouseContainer(house) {
+    let housecontainer = document.createElement('div');
+    housecontainer.className = 'houseContainer';
+
+    let image = document.createElement('img');
+    image.src = 'images/' + house.image;
+    image.className = 'houseImage';
+
+    let header = createParagraph('header', house.address);
+    let sizeText = createParagraph('text', 'Pinta-ala: ' + house.size + ' m²');
+    let priceText = createParagraph('text', 'Hinta: ' + new Intl.NumberFormat('fi-FI').format(house.price) + ' €');
+
+    housecontainer.appendChild(image);
+    housecontainer.appendChild(header);
+    housecontainer.appendChild(sizeText);
+    housecontainer.appendChild(priceText);
+
+    return housecontainer;
+}
+
+function createParagraph(className, text) {
+    let paragraph = document.createElement('p');
+    paragraph.className = className;
+    paragraph.innerHTML = text;
+    return paragraph;
+}
+
+function updateView() {
+    renderHouses();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    renderHouses();
+    updateView(); // Call updateView to ensure initial rendering reflects checkbox states
+});
