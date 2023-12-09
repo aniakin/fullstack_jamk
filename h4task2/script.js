@@ -1,3 +1,9 @@
+async function getHouses() {
+    const response = await fetch('talotiedot.json');
+    const data = await response.json();
+    return data;
+}
+
 async function renderHouses() {
     let houses = await getHouses();
     console.log(houses);
@@ -59,3 +65,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+function createCheckbox(id, labelText) {
+    let checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = id;
+
+    let label = document.createElement('label');
+    label.htmlFor = id;
+    label.innerHTML = labelText;
+
+    return { checkbox, label };
+}
