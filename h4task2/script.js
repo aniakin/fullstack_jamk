@@ -9,22 +9,24 @@ async function renderHouses() {
     console.log(houses);
 
     let housediv = document.getElementById("houses");
-    housediv.innerHTML = "";
+    housediv.innerHTML = ""; 
 
     let checkbox1 = document.createElement('input');
     checkbox1.type = 'checkbox';
     checkbox1.id = 'filterSize';
+    checkbox1.addEventListener('change', () => updateView()); 
 
     let label1 = document.createElement('label');
-    label1.htmlFor = 'filterSize'; // Use htmlFor instead of for
+    label1.for = 'filterSize';
     label1.innerHTML = 'Näytä alle 200m2';
 
     let checkbox2 = document.createElement('input');
     checkbox2.type = 'checkbox';
     checkbox2.id = 'filterPrice';
+    checkbox2.addEventListener('change', () => updateView()); 
 
     let label2 = document.createElement('label');
-    label2.htmlFor = 'filterPrice'; // Use htmlFor instead of for
+    label2.for = 'filterPrice';
     label2.innerHTML = 'Näytä alle 1 000 000 €';
 
     housediv.appendChild(checkbox1);
@@ -32,16 +34,12 @@ async function renderHouses() {
     housediv.appendChild(checkbox2);
     housediv.appendChild(label2);
 
-    housediv.addEventListener('change', function (event) {
-        if (event.target.type === 'checkbox') {
-            updateView();
-
     houses.forEach(house => {
         const showBySize = !checkbox1.checked || (checkbox1.checked && house.size < 200);
         const showByPrice = !checkbox2.checked || (checkbox2.checked && house.price < 1000000);
 
         if (showBySize && showByPrice) {
-            let housecontainer = document.createElement('div');
+            let housecontainer = document.createElement('div'); 
             housecontainer.className = 'houseContainer';
 
             let image = document.createElement('img');
@@ -60,27 +58,17 @@ async function renderHouses() {
             priceText.className = 'text';
             priceText.innerHTML = 'Hinta: ' + new Intl.NumberFormat('fi-FI').format(house.price) + ' €';
 
-            let descriptionText = document.createElement('p');
-            descriptionText.className = 'text';
-            descriptionText.innerHTML = house.text;
-
             housecontainer.appendChild(image);
             housecontainer.appendChild(header);
             housecontainer.appendChild(sizeText);
             housecontainer.appendChild(priceText);
-            housecontainer.appendChild(descriptionText);
 
             housediv.appendChild(housecontainer);
         }
     });
 }
 
-function updateView(event) {
-    console.log('Checkbox clicked');
-    console.log('Checkbox 1 checked:', checkbox1.checked);
-    console.log('Checkbox 2 checked:', checkbox2.checked);
-
-    event.preventDefault();
+function updateView() {
     renderHouses();
 }
 
