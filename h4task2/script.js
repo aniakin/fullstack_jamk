@@ -21,12 +21,14 @@ async function renderHouses() {
     let checkbox1 = createCheckbox('filterSize', 'Näytä alle 200m2');
     let checkbox2 = createCheckbox('filterPrice', 'Näytä alle 1 000 000 €');
 
-    housediv.appendChild(checkbox1);
-    housediv.appendChild(checkbox2);
+    housediv.appendChild(checkbox1.checkbox);
+    housediv.appendChild(checkbox1.label);
+    housediv.appendChild(checkbox2.checkbox);
+    housediv.appendChild(checkbox2.label);
 
     houses.forEach(house => {
-        const showBySize = !checkbox1.checked || (checkbox1.checked && house.size < 200);
-        const showByPrice = !checkbox2.checked || (checkbox2.checked && house.price < 1000000);
+        const showBySize = !checkbox1.checkbox.checked || (checkbox1.checkbox.checked && house.size < 200);
+        const showByPrice = !checkbox2.checkbox.checked || (checkbox2.checkbox.checked && house.price < 1000000);
 
         if (showBySize && showByPrice) {
             let housecontainer = document.createElement('div');
@@ -68,7 +70,7 @@ async function renderHouses() {
 
         checkbox.addEventListener('change', updateView);
 
-        return checkbox;
+        return { checkbox, label: labelElement };
     }
 }
 
