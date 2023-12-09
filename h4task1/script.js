@@ -23,10 +23,10 @@ async function getHouses() {
       header.innerHTML = house.address;
   
       let size = document.createElement('p');
-      size.innerHTML = 'Pinta-ala: ' + house.size + ' sqm';
+      size.innerHTML = 'Pinta-ala: ' + house.size + 'm²';
   
       let price = document.createElement('p');
-      price.innerHTML = 'Hinta: ' + new Intl.NumberFormat('fi-FI').format(house.price);
+      price.innerHTML = 'Hinta: ' + new Intl.NumberFormat('fi-FI').format(house.price) + '€';
   
       let text = document.createElement('p');
       text.className = 'text';
