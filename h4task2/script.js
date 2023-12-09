@@ -19,18 +19,16 @@ async function renderHouses() {
     housediv.appendChild(checkbox2);
 
     houses.forEach(house => {
-        const showBySize = !checkbox1.checked || (checkbox1.checked && house.size < 200);
-        const showByPrice = !checkbox2.checked || (checkbox2.checked && house.price < 1000000);
-
-        if (showBySize && showByPrice) {
-            let housecontainer = createHouseContainer(house);
-            housediv.appendChild(housecontainer);
-        }
+        let housecontainer = createHouseContainer(house);
+        housediv.appendChild(housecontainer);
     });
 
-    // Add event listeners after rendering
-    checkbox1.addEventListener('change', updateView);
-    checkbox2.addEventListener('change', updateView);
+    // Add event listener to housediv for checkbox changes
+    housediv.addEventListener('change', function (event) {
+        if (event.target.type === 'checkbox') {
+            updateView();
+        }
+    });
 }
 
 function createCheckbox(id, label) {
