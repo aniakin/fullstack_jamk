@@ -74,15 +74,10 @@ function createHouseContainer(house) {
     priceText.className = 'text';
     priceText.innerHTML = 'Hinta: ' + new Intl.NumberFormat('fi-FI').format(house.price) + ' €';
 
-    let descriptionText = document.createElement('p');
-    descriptionText.className = 'text';
-    descriptionText.innerHTML = 'Kuvaus: ' + house.description;
-
     housecontainer.appendChild(image);
     housecontainer.appendChild(header);
     housecontainer.appendChild(sizeText);
     housecontainer.appendChild(priceText);
-    housecontainer.appendChild(descriptionText);
 
     return housecontainer;
 }
