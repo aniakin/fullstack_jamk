@@ -30,6 +30,7 @@ async function renderHouses() {
     label2.appendChild(checkbox2);  // Wrap checkbox with label
 
     housediv.appendChild(label1);
+    housediv.appendChild(document.createElement('br'));  // Add line break
     housediv.appendChild(label2);
 
     houses.forEach(house => {
