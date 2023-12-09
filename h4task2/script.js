@@ -73,7 +73,12 @@ async function renderHouses() {
     });
 }
 
-function updateView() {
+function updateView(event) {
+    console.log('Checkbox clicked');
+    console.log('Checkbox 1 checked:', checkbox1.checked);
+    console.log('Checkbox 2 checked:', checkbox2.checked);
+
+    event.preventDefault();
     renderHouses();
 }
 
