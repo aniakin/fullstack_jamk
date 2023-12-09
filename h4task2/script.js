@@ -14,7 +14,6 @@ async function renderHouses() {
     let checkbox1 = document.createElement('input');
     checkbox1.type = 'checkbox';
     checkbox1.id = 'filterSize';
-    checkbox1.addEventListener('change', updateView);
 
     let label1 = document.createElement('label');
     label1.htmlFor = 'filterSize'; // Use htmlFor instead of for
@@ -23,7 +22,6 @@ async function renderHouses() {
     let checkbox2 = document.createElement('input');
     checkbox2.type = 'checkbox';
     checkbox2.id = 'filterPrice';
-    checkbox2.addEventListener('change', updateView);
 
     let label2 = document.createElement('label');
     label2.htmlFor = 'filterPrice'; // Use htmlFor instead of for
@@ -33,6 +31,10 @@ async function renderHouses() {
     housediv.appendChild(label1);
     housediv.appendChild(checkbox2);
     housediv.appendChild(label2);
+
+    housediv.addEventListener('change', function (event) {
+        if (event.target.type === 'checkbox') {
+            updateView();
 
     houses.forEach(house => {
         const showBySize = !checkbox1.checked || (checkbox1.checked && house.size < 200);
