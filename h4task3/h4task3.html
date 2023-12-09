@@ -91,6 +91,17 @@
       }
     });
 
+    // Event listener for mousedown on the search results
+    searchResults.addEventListener('mousedown', function(event) {
+      event.preventDefault(); // Prevents the click from triggering a blur on the input
+      const target = event.target;
+      if (target.tagName === 'LI') {
+        searchInput.value = target.textContent;
+        resetSearch();
+        searchInput.focus();
+      }
+    });
+
     // Render search results in the list
     function renderSearchResults(results, searchTerm) {
       searchResults.innerHTML = '';
