@@ -18,30 +18,17 @@ async function renderHouses() {
 
     housediv.innerHTML = ""; 
 
-    let checkbox1 = document.createElement('input');
-    checkbox1.type = 'checkbox';
-    checkbox1.id = 'filterSize';
-    
-    let label1 = document.createElement('label');
-    label1.htmlFor = 'filterSize';
-    label1.innerHTML = 'Näytä alle 200m2';
+    let checkbox1 = createCheckbox('filterSize', 'Näytä alle 200m2');
+    let checkbox2 = createCheckbox('filterPrice', 'Näytä alle 1 000 000 €');
 
-    let checkbox2 = document.createElement('input');
-    checkbox2.type = 'checkbox';
-    checkbox2.id = 'filterPrice';
-    
-    let label2 = document.createElement('label');
-    label2.htmlFor = 'filterPrice';
-    label2.innerHTML = 'Näytä alle 1 000 000 €';
-
-    housediv.appendChild(label1);
-    housediv.appendChild(checkbox1);
-    housediv.appendChild(label2);
-    housediv.appendChild(checkbox2);
+    housediv.appendChild(checkbox1.label);
+    housediv.appendChild(checkbox1.checkbox);
+    housediv.appendChild(checkbox2.label);
+    housediv.appendChild(checkbox2.checkbox);
 
     houses.forEach(house => {
-        const showBySize = !checkbox1.checked || (checkbox1.checked && house.size < 200);
-        const showByPrice = !checkbox2.checked || (checkbox2.checked && house.price < 1000000);
+        const showBySize = !checkbox1.checkbox.checked || (checkbox1.checkbox.checked && house.size < 200);
+        const showByPrice = !checkbox2.checkbox.checked || (checkbox2.checkbox.checked && house.price < 1000000);
 
         if (showBySize && showByPrice) {
             let housecontainer = document.createElement('div'); 
@@ -75,6 +62,18 @@ async function renderHouses() {
 
 function updateView() {
     renderHouses();
+}
+
+function createCheckbox(id, labelText) {
+    let checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = id;
+
+    let label = document.createElement('label');
+    label.htmlFor = id;
+    label.innerHTML = labelText;
+
+    return { checkbox, label };
 }
 
 document.addEventListener('DOMContentLoaded', renderHouses);
