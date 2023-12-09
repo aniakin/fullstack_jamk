@@ -4,41 +4,47 @@ async function getHouses() {
     return data;
 }
 
+let housediv = document.getElementById("houses");
+
+housediv.addEventListener('change', (event) => {
+    if (event.target.type === 'checkbox') {
+        updateView();
+    }
+});
+
 async function renderHouses() {
     let houses = await getHouses();
     console.log(houses);
 
-    let housediv = document.getElementById("houses");
-    housediv.innerHTML = "";
+    housediv.innerHTML = ""; 
 
     let checkbox1 = document.createElement('input');
     checkbox1.type = 'checkbox';
     checkbox1.id = 'filterSize';
-
+    
     let label1 = document.createElement('label');
+    label1.for = 'filterSize';
     label1.innerHTML = 'Näytä alle 200m2';
-    label1.appendChild(checkbox1);
 
     let checkbox2 = document.createElement('input');
     checkbox2.type = 'checkbox';
     checkbox2.id = 'filterPrice';
-
+    
     let label2 = document.createElement('label');
+    label2.for = 'filterPrice';
     label2.innerHTML = 'Näytä alle 1 000 000 €';
-    label2.appendChild(checkbox2);
 
+    housediv.appendChild(checkbox1);
     housediv.appendChild(label1);
+    housediv.appendChild(checkbox2);
     housediv.appendChild(label2);
 
-    checkbox1.addEventListener('change', updateView);
-    checkbox2.addEventListener('change', updateView);
-
     houses.forEach(house => {
-        let showBySize = checkbox1.checked ? house.size < 200 : true;
-        let showByPrice = checkbox2.checked ? house.price < 1000000 : true;
+        const showBySize = !checkbox1.checked || (checkbox1.checked && house.size < 200);
+        const showByPrice = !checkbox2.checked || (checkbox2.checked && house.price < 1000000);
 
         if (showBySize && showByPrice) {
-            let housecontainer = document.createElement('div');
+            let housecontainer = document.createElement('div'); 
             housecontainer.className = 'houseContainer';
 
             let image = document.createElement('img');
