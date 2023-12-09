@@ -1,4 +1,9 @@
-let checkbox1, checkbox2; // Declare checkboxes globally
+document.addEventListener('DOMContentLoaded', function () {
+    renderHouses();
+
+    document.getElementById('filterSize').addEventListener('change', updateView);
+    document.getElementById('filterPrice').addEventListener('change', updateView);
+});
 
 async function getHouses() {
     const response = await fetch('talotiedot.json');
@@ -12,6 +17,12 @@ async function renderHouses() {
 
     let housediv = document.getElementById("houses");
     housediv.innerHTML = "";
+
+    let checkbox1 = createCheckbox('filterSize', 'Näytä alle 200m2');
+    let checkbox2 = createCheckbox('filterPrice', 'Näytä alle 1 000 000 €');
+
+    housediv.appendChild(checkbox1);
+    housediv.appendChild(checkbox2);
 
     houses.forEach(house => {
         const showBySize = !checkbox1.checked || (checkbox1.checked && house.size < 200);
@@ -45,30 +56,22 @@ async function renderHouses() {
             housediv.appendChild(housecontainer);
         }
     });
+
+    function createCheckbox(id, label) {
+        let checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = id;
+
+        let labelElement = document.createElement('label');
+        labelElement.htmlFor = id;
+        labelElement.innerHTML = label;
+
+        checkbox.addEventListener('change', updateView);
+
+        return checkbox;
+    }
 }
 
 function updateView() {
     renderHouses();
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    housediv = document.getElementById("houses");
-    checkbox1 = document.createElement('input');
-    checkbox1.type = 'checkbox';
-    checkbox1.id = 'filterSize';
-
-    checkbox2 = document.createElement('input');
-    checkbox2.type = 'checkbox';
-    checkbox2.id = 'filterPrice';
-
-    housediv.appendChild(checkbox1);
-    housediv.appendChild(document.createTextNode('Näytä alle 200m2'));
-    housediv.appendChild(checkbox2);
-    housediv.appendChild(document.createTextNode('Näytä alle 1 000 000 €'));
-
-    renderHouses();
-
-    housediv.addEventListener('change', () => {
-        updateView();
-    });
-});
