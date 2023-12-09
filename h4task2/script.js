@@ -9,31 +9,32 @@ async function getHouses() {
     return data;
 }
 
-async function renderHouses() {
-    let houses = await getHouses();
-    console.log(houses);
+function renderHouses() {
+    getHouses().then(houses => {
+        console.log(houses);
 
-    let housediv = document.getElementById("houses");
-    housediv.innerHTML = "";
+        let housediv = document.getElementById("houses");
+        housediv.innerHTML = "";
 
-    let checkbox1 = createCheckbox('filterSize', 'Näytä alle 200m2');
-    let checkbox2 = createCheckbox('filterPrice', 'Näytä alle 1 000 000 €');
+        let checkbox1 = createCheckbox('filterSize', 'Näytä alle 200m2');
+        let checkbox2 = createCheckbox('filterPrice', 'Näytä alle 1 000 000 €');
 
-    housediv.appendChild(checkbox1);
-    housediv.appendChild(document.createElement('br'));
-    housediv.appendChild(checkbox2);
+        housediv.appendChild(checkbox1);
+        housediv.appendChild(document.createElement('br'));
+        housediv.appendChild(checkbox2);
 
-    houses.forEach(house => {
-        let housecontainer = createHouseContainer(house);
-        housediv.appendChild(housecontainer);
-    });
+        houses.forEach(house => {
+            let housecontainer = createHouseContainer(house);
+            housediv.appendChild(housecontainer);
+        });
 
-    // Add event listener to housediv for checkbox changes
-    housediv.addEventListener('change', function (event) {
-        if (event.target.type === 'checkbox') {
-            checkboxState[event.target.id] = event.target.checked;
-            updateView();
-        }
+        // Add event listener to housediv for checkbox changes
+        housediv.addEventListener('change', function (event) {
+            if (event.target.type === 'checkbox') {
+                checkboxState[event.target.id] = event.target.checked;
+                updateView();
+            }
+        });
     });
 }
 
@@ -85,8 +86,8 @@ function updateView() {
     let houses = document.querySelectorAll('.houseContainer');
 
     houses.forEach(house => {
-        let showBySize = !checkboxState.filterSize || (checkboxState.filterSize && house.dataset.size < 200);
-        let showByPrice = !checkboxState.filterPrice || (checkboxState.filterPrice && house.dataset.price < 1000000);
+        let showBySize = !checkboxState.filterSize || (checkboxState.filterSize && parseInt(house.dataset.size) < 200);
+        let showByPrice = !checkboxState.filterPrice || (checkboxState.filterPrice && parseInt(house.dataset.price) < 1000000);
 
         house.style.display = showBySize && showByPrice ? 'block' : 'none';
     });
