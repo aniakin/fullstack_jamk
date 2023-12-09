@@ -1,3 +1,8 @@
+let checkboxState = {
+    filterSize: false,
+    filterPrice: false,
+};
+
 async function getHouses() {
     const response = await fetch('talotiedot.json');
     const data = await response.json();
@@ -24,8 +29,11 @@ async function renderHouses() {
     });
 
     // Add event listener to housediv for checkbox changes
-    housediv.addEventListener('change', function () {
-        updateView();
+    housediv.addEventListener('change', function (event) {
+        if (event.target.type === 'checkbox') {
+            checkboxState[event.target.id] = event.target.checked;
+            updateView();
+        }
     });
 }
 
@@ -33,31 +41,7 @@ function createCheckbox(id, label) {
     let checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.id = id;
+    checkbox.checked = checkboxState[id]; // Set the initial state
 
     let labelElement = document.createElement('label');
-    labelElement.for = id;
-    labelElement.innerHTML = label;
-    labelElement.appendChild(checkbox);
-
-    return labelElement;
-}
-
-function createHouseContainer(house) {
-    let housecontainer = document.createElement('div');
-    housecontainer.className = 'houseContainer';
-
-    let image = document.createElement('img');
-    image.src = 'images/' + house.image;
-    image.className = 'houseImage';
-
-    let header = document.createElement('p');
-    header.className = 'header';
-    header.innerHTML = house.address;
-
-    let sizeText = document.createElement('p');
-    sizeText.className = 'text';
-    sizeText.innerHTML = 'Pinta-ala: ' + house.size + ' m²';
-
-    let priceText = document.createElement('p');
-    priceText.className = 'text';
-    priceText.innerHTML = 'Hinta: ' + new Intl.NumberFormat('fi-FI').format(house.price)
+    lab
