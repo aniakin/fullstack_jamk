@@ -28,7 +28,7 @@
       background-color: #e0e0e0;
     }
   </style>
-  <title>Name Search</title>
+  <title>Etunimihaku</title>
 </head>
 <body>
 
@@ -51,21 +51,6 @@
 
     // Event listener for input on the search input
     searchInput.addEventListener('input', function(event) {
-      const results = searchResults.children;
-
-      if (event.inputType === 'insertText') {
-        // Handle typing
-        const searchTerm = searchInput.value.toLowerCase();
-        const filteredNames = names.filter(name => name.toLowerCase().startsWith(searchTerm));
-        renderSearchResults(filteredNames, searchTerm);
-      } else if (event.inputType === 'deleteContentBackward' && searchInput.value === '') {
-        // Handle backspace to reset search when the input is empty
-        resetSearch();
-      }
-    });
-
-    // Event listener for click on the search input
-    searchInput.addEventListener('click', function() {
       const searchTerm = searchInput.value.toLowerCase();
       const filteredNames = names.filter(name => name.toLowerCase().startsWith(searchTerm));
       renderSearchResults(filteredNames, searchTerm);
@@ -85,7 +70,12 @@
         updateSelectedResult();
       } else if (event.key === 'Enter') {
         event.preventDefault();
-        selectResult();
+        const selectedResult = searchResults.querySelector('li.highlight');
+        if (selectedResult) {
+          searchInput.value = selectedResult.textContent;
+          resetSearch();
+          searchInput.focus();
+        }
       } else if (event.key === 'Escape') {
         resetSearch();
       }
@@ -114,6 +104,7 @@
           // Handle click on a search result
           searchInput.value = result;
           resetSearch();
+          searchInput.focus();
         });
         searchResults.appendChild(li);
 
@@ -146,16 +137,6 @@
     function resetSearch() {
       searchInput.value = '';
       searchResults.innerHTML = '';
-    }
-
-    // Handle selection when Enter is pressed
-    function selectResult() {
-      const selectedResult = searchResults.querySelector('li.highlight');
-      if (selectedResult) {
-        searchInput.value = selectedResult.textContent;
-        resetSearch();
-        searchInput.focus();
-      }
     }
 
     // Update the visual highlight of the selected result
