@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fi">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,7 +28,7 @@
       background-color: #e0e0e0;
     }
   </style>
-  <title>Nimihaku</title>
+  <title>Name Search</title>
 </head>
 <body>
 
@@ -113,10 +113,8 @@
       const selectedResult = searchResults.querySelector('li.highlight');
       if (selectedResult) {
         searchInput.value = selectedResult.textContent;
-        resetSearch();
-      } else {
-        resetSearch();
       }
+      resetSearch();
     }
 
     function updateSelectedResult() {
