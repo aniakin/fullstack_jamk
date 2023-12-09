@@ -33,3 +33,7 @@ p.text {
     font-style: italic;
     font-size: 10px;
 }
+
+input[type="checkbox"] {
+    cursor: pointer;
+}

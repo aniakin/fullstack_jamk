@@ -4,40 +4,31 @@ async function getHouses() {
     return data;
 }
 
-async function renderHouses() {
-    console.log('Rendering houses...'); 
+function createCheckbox(id, labelText, onChange) {
+    let checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = id;
+    checkbox.addEventListener('change', onChange);
 
+    let label = document.createElement('label');
+    label.for = id;
+    label.innerHTML = labelText;
+    label.appendChild(checkbox);
+
+    return { checkbox, label };
+}
+
+async function renderHouses() {
     let houses = await getHouses();
     console.log(houses);
 
     let housediv = document.getElementById("houses");
-    housediv.innerHTML = ""; 
+    housediv.innerHTML = "";
 
-    let checkbox1 = document.createElement('input');
-    checkbox1.type = 'checkbox';
-    checkbox1.id = 'filterSize';
-    checkbox1.addEventListener('change', function() {
-        updateView();
-    });
+    let { checkbox: checkbox1, label: label1 } = createCheckbox('filterSize', 'Näytä alle 200m2', updateView);
+    let { checkbox: checkbox2, label: label2 } = createCheckbox('filterPrice', 'Näytä alle 1 000 000 €', updateView);
 
-    let label1 = document.createElement('label');
-    label1.for = 'filterSize';
-    label1.innerHTML = 'Näytä alle 200m2';
-
-    let checkbox2 = document.createElement('input');
-    checkbox2.type = 'checkbox';
-    checkbox2.id = 'filterPrice';
-    checkbox2.addEventListener('change', function() {
-        updateView();
-    });
-
-    let label2 = document.createElement('label');
-    label2.for = 'filterPrice';
-    label2.innerHTML = 'Näytä alle 1 000 000 €';
-
-    housediv.appendChild(checkbox1);
     housediv.appendChild(label1);
-    housediv.appendChild(checkbox2);
     housediv.appendChild(label2);
 
     houses.forEach(house => {
@@ -45,7 +36,7 @@ async function renderHouses() {
         const showByPrice = !checkbox2.checked || (checkbox2.checked && house.price < 1000000);
 
         if (showBySize && showByPrice) {
-            let housecontainer = document.createElement('div'); 
+            let housecontainer = document.createElement('div');
             housecontainer.className = 'houseContainer';
 
             let image = document.createElement('img');
