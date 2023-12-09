@@ -1,22 +1,8 @@
-async function getHouses() {
-    const response = await fetch('talotiedot.json');
-    const data = await response.json();
-    return data;
-}
-
-let housediv = document.getElementById("houses");
-
-housediv.addEventListener('change', (event) => {
-    if (event.target.type === 'checkbox') {
-        updateView();
-    }
-});
-
 async function renderHouses() {
     let houses = await getHouses();
     console.log(houses);
 
-    housediv.innerHTML = ""; 
+    housediv.innerHTML = "";
 
     let checkbox1 = createCheckbox('filterSize', 'Näytä alle 200m2');
     let checkbox2 = createCheckbox('filterPrice', 'Näytä alle 1 000 000 €');
@@ -31,7 +17,7 @@ async function renderHouses() {
         const showByPrice = !checkbox2.checkbox.checked || (checkbox2.checkbox.checked && house.price < 1000000);
 
         if (showBySize && showByPrice) {
-            let housecontainer = document.createElement('div'); 
+            let housecontainer = document.createElement('div');
             housecontainer.className = 'houseContainer';
 
             let image = document.createElement('img');
@@ -64,16 +50,12 @@ function updateView() {
     renderHouses();
 }
 
-function createCheckbox(id, labelText) {
-    let checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.id = id;
+document.addEventListener('DOMContentLoaded', () => {
+    renderHouses();
 
-    let label = document.createElement('label');
-    label.htmlFor = id;
-    label.innerHTML = labelText;
-
-    return { checkbox, label };
-}
-
-document.addEventListener('DOMContentLoaded', renderHouses);
+    housediv.addEventListener('change', (event) => {
+        if (event.target.type === 'checkbox') {
+            updateView();
+        }
+    });
+});
