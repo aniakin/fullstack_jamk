@@ -9,13 +9,13 @@ async function renderHouses() {
     console.log(houses);
 
     let housediv = document.getElementById("houses");
-    housediv.innerHTML = ""; 
+    housediv.innerHTML = "";
 
     let checkbox1 = document.createElement('input');
     checkbox1.type = 'checkbox';
     checkbox1.id = 'filterSize';
-    checkbox1.addEventListener('change', () => updateView()); // Use an arrow function to ensure 'this' is properly set
-
+    checkbox1.addEventListener('change', updateView);
+    
     let label1 = document.createElement('label');
     label1.for = 'filterSize';
     label1.innerHTML = 'Näytä alle 200m2';
@@ -23,8 +23,8 @@ async function renderHouses() {
     let checkbox2 = document.createElement('input');
     checkbox2.type = 'checkbox';
     checkbox2.id = 'filterPrice';
-    checkbox2.addEventListener('change', () => updateView()); // Use an arrow function to ensure 'this' is properly set
-
+    checkbox2.addEventListener('change', updateView);
+    
     let label2 = document.createElement('label');
     label2.for = 'filterPrice';
     label2.innerHTML = 'Näytä alle 1 000 000 €';
@@ -39,7 +39,7 @@ async function renderHouses() {
         const showByPrice = !checkbox2.checked || (checkbox2.checked && house.price < 1000000);
 
         if (showBySize && showByPrice) {
-            let housecontainer = document.createElement('div'); // Declare with let
+            let housecontainer = document.createElement('div');
             housecontainer.className = 'houseContainer';
 
             let image = document.createElement('img');
@@ -52,16 +52,21 @@ async function renderHouses() {
 
             let sizeText = document.createElement('p');
             sizeText.className = 'text';
-            sizeText.innerHTML = 'Size: ' + house.size + ' m²';
+            sizeText.innerHTML = 'Pinta-ala: ' + house.size + ' m²';
 
             let priceText = document.createElement('p');
             priceText.className = 'text';
-            priceText.innerHTML = 'Price: ' + new Intl.NumberFormat('fi-FI').format(house.price) + ' €';
+            priceText.innerHTML = 'Hinta: ' + new Intl.NumberFormat('fi-FI').format(house.price) + ' €';
+
+            let descriptionText = document.createElement('p');
+            descriptionText.className = 'text';
+            descriptionText.innerHTML = house.text;
 
             housecontainer.appendChild(image);
             housecontainer.appendChild(header);
             housecontainer.appendChild(sizeText);
             housecontainer.appendChild(priceText);
+            housecontainer.appendChild(descriptionText);
 
             housediv.appendChild(housecontainer);
         }
