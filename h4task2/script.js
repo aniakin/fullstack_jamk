@@ -1,3 +1,5 @@
+let housediv;
+
 async function getHouses() {
     const response = await fetch('talotiedot.json');
     const data = await response.json();
@@ -57,6 +59,7 @@ function updateView() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    housediv = document.getElementById("houses");
     renderHouses();
 
     housediv.addEventListener('change', (event) => {
