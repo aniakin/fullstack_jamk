@@ -70,7 +70,7 @@ async function renderHouses() {
 }
 
 function updateView() {
-    renderHouses();
+    setTimeout(() => renderHouses(), 0); // Use setTimeout to make sure the checkbox state is updated
 }
 
 document.addEventListener('DOMContentLoaded', renderHouses);
