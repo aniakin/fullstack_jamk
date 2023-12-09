@@ -4,20 +4,6 @@ async function getHouses() {
     return data;
 }
 
-function createCheckbox(id, labelText, onChange) {
-    let checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.id = id;
-    checkbox.addEventListener('change', onChange);
-
-    let label = document.createElement('label');
-    label.for = id;
-    label.innerHTML = labelText;
-    label.appendChild(checkbox);
-
-    return { checkbox, label };
-}
-
 async function renderHouses() {
     let houses = await getHouses();
     console.log(houses);
@@ -25,8 +11,23 @@ async function renderHouses() {
     let housediv = document.getElementById("houses");
     housediv.innerHTML = "";
 
-    let { checkbox: checkbox1, label: label1 } = createCheckbox('filterSize', 'Näytä alle 200m2', updateView);
-    let { checkbox: checkbox2, label: label2 } = createCheckbox('filterPrice', 'Näytä alle 1 000 000 €', updateView);
+    let checkbox1 = document.createElement('input');
+    checkbox1.type = 'checkbox';
+    checkbox1.id = 'filterSize';
+
+    let label1 = document.createElement('label');
+    label1.for = 'filterSize';
+    label1.innerHTML = 'Näytä alle 200m2';
+    label1.appendChild(checkbox1);  // Wrap checkbox with label
+
+    let checkbox2 = document.createElement('input');
+    checkbox2.type = 'checkbox';
+    checkbox2.id = 'filterPrice';
+
+    let label2 = document.createElement('label');
+    label2.for = 'filterPrice';
+    label2.innerHTML = 'Näytä alle 1 000 000 €';
+    label2.appendChild(checkbox2);  // Wrap checkbox with label
 
     housediv.appendChild(label1);
     housediv.appendChild(label2);
