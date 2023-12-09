@@ -27,6 +27,10 @@ async function renderHouses() {
             housediv.appendChild(housecontainer);
         }
     });
+
+    // Add event listeners after rendering
+    checkbox1.addEventListener('change', updateView);
+    checkbox2.addEventListener('change', updateView);
 }
 
 function createCheckbox(id, label) {
@@ -38,8 +42,6 @@ function createCheckbox(id, label) {
     labelElement.for = id;
     labelElement.innerHTML = label;
     labelElement.appendChild(checkbox);
-
-    checkbox.addEventListener('change', updateView);
 
     return labelElement;
 }
