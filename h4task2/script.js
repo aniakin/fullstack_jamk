@@ -1,3 +1,5 @@
+let checkbox1, checkbox2; // Declare checkboxes globally
+
 async function getHouses() {
     const response = await fetch('talotiedot.json');
     const data = await response.json();
@@ -51,6 +53,19 @@ function updateView() {
 
 document.addEventListener('DOMContentLoaded', () => {
     housediv = document.getElementById("houses");
+    checkbox1 = document.createElement('input');
+    checkbox1.type = 'checkbox';
+    checkbox1.id = 'filterSize';
+
+    checkbox2 = document.createElement('input');
+    checkbox2.type = 'checkbox';
+    checkbox2.id = 'filterPrice';
+
+    housediv.appendChild(checkbox1);
+    housediv.appendChild(document.createTextNode('Näytä alle 200m2'));
+    housediv.appendChild(checkbox2);
+    housediv.appendChild(document.createTextNode('Näytä alle 1 000 000 €'));
+
     renderHouses();
 
     housediv.addEventListener('change', () => {
