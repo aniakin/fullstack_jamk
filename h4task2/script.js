@@ -23,7 +23,7 @@ async function renderHouses() {
     checkbox1.id = 'filterSize';
     
     let label1 = document.createElement('label');
-    label1.for = 'filterSize';
+    label1.htmlFor = 'filterSize';
     label1.innerHTML = 'Näytä alle 200m2';
 
     let checkbox2 = document.createElement('input');
@@ -31,13 +31,13 @@ async function renderHouses() {
     checkbox2.id = 'filterPrice';
     
     let label2 = document.createElement('label');
-    label2.for = 'filterPrice';
+    label2.htmlFor = 'filterPrice';
     label2.innerHTML = 'Näytä alle 1 000 000 €';
 
-    housediv.appendChild(checkbox1);
     housediv.appendChild(label1);
-    housediv.appendChild(checkbox2);
+    housediv.appendChild(checkbox1);
     housediv.appendChild(label2);
+    housediv.appendChild(checkbox2);
 
     houses.forEach(house => {
         const showBySize = !checkbox1.checked || (checkbox1.checked && house.size < 200);
