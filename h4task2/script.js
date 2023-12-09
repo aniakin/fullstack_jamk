@@ -1,14 +1,23 @@
 document.addEventListener('DOMContentLoaded', function () {
     renderHouses();
-
-    document.getElementById('filterSize').addEventListener('change', updateView);
-    document.getElementById('filterPrice').addEventListener('change', updateView);
 });
 
 async function getHouses() {
     const response = await fetch('talotiedot.json');
     const data = await response.json();
     return data;
+}
+
+function createCheckbox(id, labelText) {
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = id;
+
+    const label = document.createElement('label');
+    label.htmlFor = id;
+    label.innerHTML = labelText;
+
+    return { checkbox, label };
 }
 
 async function renderHouses() {
@@ -59,21 +68,10 @@ async function renderHouses() {
         }
     });
 
-    function createCheckbox(id, label) {
-        let checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.id = id;
+    checkbox1.checkbox.addEventListener('change', updateView);
+    checkbox2.checkbox.addEventListener('change', updateView);
 
-        let labelElement = document.createElement('label');
-        labelElement.htmlFor = id;
-        labelElement.innerHTML = label;
-
-        checkbox.addEventListener('change', updateView);
-
-        return { checkbox, label: labelElement };
+    function updateView() {
+        renderHouses();
     }
-}
-
-function updateView() {
-    renderHouses();
 }
