@@ -36,125 +36,114 @@
   <ul id="searchResults"></ul>
 
   <script>
-    const searchInput = document.getElementById('searchInput');
-    const searchResults = document.getElementById('searchResults');
-    let names = [];
-    let selectedResultIndex = -1;
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+        let names = [];
+        let selectedResultIndex = -1;
 
-    // Fetch the names from the JSON file
-    fetch('names.json')
-      .then(response => response.json())
-      .then(data => {
-        names = data;
-      })
-      .catch(error => console.error('Error fetching names:', error));
+        fetch('names.json')
+            .then(response => response.json())
+            .then(data => {
+                names = data;
+            })
+            .catch(error => console.error('Error fetching names:', error));
 
-    // Event listener for input on the search input
-    searchInput.addEventListener('input', function(event) {
-      const searchTerm = searchInput.value.toLowerCase();
-      const filteredNames = names.filter(name => name.toLowerCase().startsWith(searchTerm));
-      renderSearchResults(filteredNames, searchTerm);
-    });
-
-    // Event listener for keydown on the search input
-    searchInput.addEventListener('keydown', function(event) {
-      const results = searchResults.children;
-
-      if (event.key === 'ArrowDown') {
-        event.preventDefault();
-        selectedResultIndex = (selectedResultIndex + 1) % results.length;
-        updateSelectedResult();
-      } else if (event.key === 'ArrowUp') {
-        event.preventDefault();
-        selectedResultIndex = (selectedResultIndex - 1 + results.length) % results.length;
-        updateSelectedResult();
-      } else if (event.key === 'Enter') {
-        event.preventDefault();
-        selectResult();
-      } else if (event.key === 'Escape') {
-        resetSearch();
-      }
-    });
-
-    // Event listener for mousedown on the search results
-    searchResults.addEventListener('mousedown', function(event) {
-      const target = event.target;
-      if (target.tagName === 'LI') {
-        searchInput.value = target.textContent;
-        resetSearch();
-        searchInput.focus();
-        event.preventDefault(); // Prevent the mousedown event from interfering with keydown
-      }
-    });
-
-    // Render search results in the list
-    function renderSearchResults(results, searchTerm) {
-      searchResults.innerHTML = '';
-      selectedResultIndex = -1;
-
-      results.forEach((result, index) => {
-        const li = document.createElement('li');
-        li.textContent = result;
-        li.addEventListener('click', function() {
-          // Handle click on a search result
-          searchInput.value = result;
-          resetSearch();
-          searchInput.focus();
+        searchInput.addEventListener('input', function () {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredNames = names.filter(name => name.toLowerCase().startsWith(searchTerm));
+            renderSearchResults(filteredNames, searchTerm);
         });
-        searchResults.appendChild(li);
 
-        if (index === selectedResultIndex) {
-          li.classList.add('highlight');
+        searchInput.addEventListener('keydown', function (event) {
+            const results = searchResults.children;
+
+            if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                selectedResultIndex = Math.min(selectedResultIndex + 1, results.length - 1);
+                updateSelectedResult();
+            } else if (event.key === 'ArrowUp') {
+                event.preventDefault();
+                selectedResultIndex = Math.max(selectedResultIndex - 1, 0);
+                updateSelectedResult();
+            } else if (event.key === 'Enter') {
+                event.preventDefault();
+                selectResult();
+            } else if (event.key === 'Escape') {
+                resetSearch();
+            }
+        });
+
+        searchResults.addEventListener('mousedown', function (event) {
+            const target = event.target;
+            if (target.tagName === 'LI') {
+                searchInput.value = target.textContent;
+                resetSearch();
+                searchInput.focus();
+            }
+        });
+
+        function renderSearchResults(results, searchTerm) {
+            searchResults.innerHTML = '';
+            selectedResultIndex = -1;
+
+            results.forEach((result, index) => {
+                const li = document.createElement('li');
+                li.textContent = result;
+                li.addEventListener('click', function () {
+                    searchInput.value = result;
+                    resetSearch();
+                    searchInput.focus();
+                });
+                searchResults.appendChild(li);
+
+                if (index === selectedResultIndex) {
+                    li.classList.add('highlight');
+                }
+            });
+
+            const firstResult = searchResults.querySelector('li');
+            if (firstResult) {
+                highlightMatch(firstResult, searchTerm);
+            }
         }
-      });
 
-      // Highlight the matching part in the results
-      const firstResult = searchResults.querySelector('li');
-      if (firstResult) {
-        highlightMatch(firstResult, searchTerm);
-      }
-    }
+        function highlightMatch(resultElement, searchTerm) {
+            const resultText = resultElement.textContent;
+            const index = resultText.toLowerCase().indexOf(searchTerm);
+            if (index !== -1) {
+                const before = resultText.substring(0, index);
+                const match = resultText.substring(index, index + searchTerm.length);
+                const after = resultText.substring(index + searchTerm.length);
 
-    // Highlight the matching part in a search result
-    function highlightMatch(resultElement, searchTerm) {
-      const resultText = resultElement.textContent;
-      const index = resultText.toLowerCase().indexOf(searchTerm);
-      if (index !== -1) {
-        const before = resultText.substring(0, index);
-        const match = resultText.substring(index, index + searchTerm.length);
-        const after = resultText.substring(index + searchTerm.length);
-
-        resultElement.innerHTML = `${before}<span class="highlight">${match}</span>${after}`;
-      }
-    }
-
-    // Reset the search input and results
-    function resetSearch() {
-      searchInput.value = '';
-      searchResults.innerHTML = '';
-    }
-
-    // Update the visual highlight of the selected result
-    function updateSelectedResult() {
-      const results = searchResults.children;
-      for (let i = 0; i < results.length; i++) {
-        if (i === selectedResultIndex) {
-          results[i].classList.add('highlight');
-        } else {
-          results[i].classList.remove('highlight');
+                resultElement.innerHTML = `${before}<span class="highlight">${match}</span>${after}`;
+            }
         }
-      }
-    }
 
-    // Handle selection when Enter is pressed
-    function selectResult() {
-      const selectedResult = searchResults.querySelector('li.highlight');
-      if (selectedResult) {
-        searchInput.value = selectedResult.textContent;
-        resetSearch();
-        searchInput.focus();
-      }
-    }
+        function resetSearch() {
+            searchResults.innerHTML = '';
+        }
+
+        function updateSelectedResult() {
+            const results = searchResults.children;
+            for (let i = 0; i < results.length; i++) {
+                if (i === selectedResultIndex) {
+                    results[i].classList.add('highlight');
+                } else {
+                    results[i].classList.remove('highlight');
+                }
+            }
+        }
+
+        function selectResult() {
+            const selectedResult = searchResults.querySelector('li.highlight');
+            if (selectedResult) {
+                searchInput.value = selectedResult.textContent;
+                resetSearch();
+                searchInput.focus();
+            }
+        }
+    });
   </script>
 </body>
 </html>
