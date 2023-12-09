@@ -49,8 +49,23 @@
       })
       .catch(error => console.error('Error fetching names:', error));
 
-    // Event listener for keyup on the search input
-    searchInput.addEventListener('input', function() {
+    // Event listener for input on the search input
+    searchInput.addEventListener('input', function(event) {
+      const results = searchResults.children;
+
+      if (event.inputType === 'insertText') {
+        // Handle typing
+        const searchTerm = searchInput.value.toLowerCase();
+        const filteredNames = names.filter(name => name.toLowerCase().startsWith(searchTerm));
+        renderSearchResults(filteredNames, searchTerm);
+      } else if (event.inputType === 'deleteContentBackward' && searchInput.value === '') {
+        // Handle backspace to reset search when the input is empty
+        resetSearch();
+      }
+    });
+
+    // Event listener for click on the search input
+    searchInput.addEventListener('click', function() {
       const searchTerm = searchInput.value.toLowerCase();
       const filteredNames = names.filter(name => name.toLowerCase().startsWith(searchTerm));
       renderSearchResults(filteredNames, searchTerm);
@@ -124,13 +139,12 @@
 
     // Handle selection when Enter is pressed
     function selectResult() {
-        const selectedResult = searchResults.querySelector('li.highlight');
-        if (selectedResult) {
-          searchInput.value = selectedResult.textContent;
+      const selectedResult = searchResults.querySelector('li.highlight');
+      if (selectedResult) {
+        searchInput.value = selectedResult.textContent;
       }
       resetSearch();
     }
-   
 
     // Update the visual highlight of the selected result
     function updateSelectedResult() {
@@ -144,6 +158,5 @@
       }
     }
   </script>
-
 </body>
 </html>
