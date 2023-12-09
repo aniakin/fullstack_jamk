@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    #searchInput {
+      padding: 5px;
+      font-size: 16px;
+    }
+
+    #searchResults {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #searchResults li {
+      cursor: pointer;
+      padding: 5px;
+    }
+
+    #searchResults li:hover {
+      background-color: #f0f0f0;
+    }
+
+    .highlight {
+      background-color: #e0e0e0;
+    }
+  </style>
+  <title>Name Search</title>
+</head>
+<body>
+
+  <input type="text" id="searchInput" placeholder="Search by name">
+  <ul id="searchResults"></ul>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+    let names = [];
+
+    fetch('names.json')
+      .then(response => response.json())
+      .then(data => {
+        names = data;
+      })
+      .catch(error => console.error('Error fetching names:', error));
+
+    searchInput.addEventListener('keyup', function(event) {
+      const searchTerm = event.target.value.toLowerCase();
+      const filteredNames = names.filter(name => name.toLowerCase().startsWith(searchTerm));
+      renderSearchResults(filteredNames, searchTerm);
+    });
+
+    searchInput.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        selectResult();
+      } else if (event.key === 'Escape') {
+        resetSearch();
+      }
+    });
+
+    function renderSearchResults(results, searchTerm) {
+      searchResults.innerHTML = '';
+      results.forEach(result => {
+        const li = document.createElement('li');
+        li.textContent = result;
+        li.addEventListener('click', function() {
+          searchInput.value = result;
+          resetSearch();
+        });
+        searchResults.appendChild(li);
+      });
+
+      const firstResult = searchResults.querySelector('li');
+      if (firstResult) {
+        highlightMatch(firstResult, searchTerm);
+      }
+    }
+
+    function highlightMatch(resultElement, searchTerm) {
+      const resultText = resultElement.textContent;
+      const index = resultText.toLowerCase().indexOf(searchTerm);
+      if (index !== -1) {
+        const before = resultText.substring(0, index);
+        const match = resultText.substring(index, index + searchTerm.length);
+        const after = resultText.substring(index + searchTerm.length);
+
+        resultElement.innerHTML = `${before}<span class="highlight">${match}</span>${after}`;
+      }
+    }
+
+    function resetSearch() {
+      searchInput.value = '';
+      searchResults.innerHTML = '';
+    }
+
+    function selectResult() {
+      const selectedResult = searchResults.querySelector('li.highlight');
+      if (selectedResult) {
+        searchInput.value = selectedResult.textContent;
+        resetSearch();
+      } else {
+        resetSearch();
+      }
+    }
+  </script>
+
+</body>
+</html>
