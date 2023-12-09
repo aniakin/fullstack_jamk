@@ -15,18 +15,18 @@ async function renderHouses() {
     checkbox1.type = 'checkbox';
     checkbox1.id = 'filterSize';
     checkbox1.addEventListener('change', updateView);
-    
+
     let label1 = document.createElement('label');
-    label1.for = 'filterSize';
+    label1.htmlFor = 'filterSize'; // Use htmlFor instead of for
     label1.innerHTML = 'Näytä alle 200m2';
 
     let checkbox2 = document.createElement('input');
     checkbox2.type = 'checkbox';
     checkbox2.id = 'filterPrice';
     checkbox2.addEventListener('change', updateView);
-    
+
     let label2 = document.createElement('label');
-    label2.for = 'filterPrice';
+    label2.htmlFor = 'filterPrice'; // Use htmlFor instead of for
     label2.innerHTML = 'Näytä alle 1 000 000 €';
 
     housediv.appendChild(checkbox1);
