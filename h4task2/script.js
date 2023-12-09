@@ -5,7 +5,7 @@ async function getHouses() {
 }
 
 async function renderHouses() {
-    console.log('Rendering houses...'); // Add this line
+    console.log('Rendering houses...'); 
 
     let houses = await getHouses();
     console.log(houses);
@@ -16,7 +16,9 @@ async function renderHouses() {
     let checkbox1 = document.createElement('input');
     checkbox1.type = 'checkbox';
     checkbox1.id = 'filterSize';
-    checkbox1.addEventListener('change', () => updateView()); 
+    checkbox1.addEventListener('change', function() {
+        updateView();
+    });
 
     let label1 = document.createElement('label');
     label1.for = 'filterSize';
@@ -25,7 +27,9 @@ async function renderHouses() {
     let checkbox2 = document.createElement('input');
     checkbox2.type = 'checkbox';
     checkbox2.id = 'filterPrice';
-    checkbox2.addEventListener('change', () => updateView()); 
+    checkbox2.addEventListener('change', function() {
+        updateView();
+    });
 
     let label2 = document.createElement('label');
     label2.for = 'filterPrice';
