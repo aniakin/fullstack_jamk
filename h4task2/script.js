@@ -72,4 +72,3 @@ function updateView() {
 }
 
 document.addEventListener('DOMContentLoaded', renderHouses);
-
