@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web-palvelin</title>
+  <style>
+    pre {
+      background-color: #f4f4f4;
+      padding: 10px;
+      border: 1px solid #ddd;
+      white-space: pre-wrap; 
+    }
+    .screenshot {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 10px; 
+    }
+  </style>
+</head>
+<body>
+  <h2>Index.js - lähdekoodi</h2>
+  <pre>
+    <code>
+
+        const express = require('express');
+        const app = express();
+        const port = 3000;
+        
+        app.use(express.json());
+        
+        let users = [
+          { 'id': '1', 'name': 'Kirsi Kernel' },
+          { 'id': '2', 'name': 'Matti Mainio' }
+        ];
+        
+        app.get('/users', (request, response) => {
+          response.json(users);
+        });
+        
+        app.get('/users/:id', (request, response) => {
+          const { id } = request.params;
+          const user = users.find(user => user.id === id);
+          if (user) {
+            response.json(user);
+          } else {
+            response.status(404).end();
+          }
+        });
+        
+        app.delete('/users/:id', (request, response) => {
+          const { id } = request.params;
+          users = users.filter(user => user.id !== id);
+          response.status(204).end();
+        });
+        
+        app.put('/users/:id', (request, response) => {
+          const { id } = request.params;
+          const { name } = request.query;
+          const user = users.find(user => user.id === id);
+          if (user) {
+            user.name = name;
+            response.status(200).end();
+          } else {
+            response.status(204).end();
+          }
+        });
+        
+        app.post('/users/', (request, response) => {
+          const maxId = Math.max(...users.map(user => parseInt(user.id, 10)), 0);
+          const user = request.body;
+          user.id = (maxId + 1).toString();
+          users = users.concat(user);
+          response.json(user);
+        });
+        
+        app.listen(port, () => {
+          console.log(`Server listening at http://localhost:${port}`);
+        });
+        
+    </code>
+  </pre>
+
+  <h2>Kuvakappaukset Postmanista</h2>
+
+  <img src="images/1_GETallusers.png" alt="GET all users" class="screenshot">
+  <img src="images/2_GEToneuser.png" alt="GET user" class="screenshot">
+  <img src="images/3_DELETEoneuser.png" alt="DELETE user" class="screenshot">
+  <img src="images/4_GETallusers_afterdelete.png" alt="DELETE user" class="screenshot">
+  <img src="images/5_PUTuser.png" alt="PUT user" class="screenshot">
+  <img src="images/6_GETallusers_afterput.png" alt="GET all users after PUT" class="screenshot">
+  <img src="images/7_POSTuser.png" alt="POST user" class="screenshot">
+  <img src="images/8_GETafterpost.png" alt="GET all users after POST" class="screenshot">
+
+</body>
+</html>
