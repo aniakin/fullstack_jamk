@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Syntymäpäivä ja syntymäaika</title>
+  <style>
+    pre {
+      background-color: #f4f4f4;
+      padding: 10px;
+      border: 1px solid #ddd;
+      white-space: pre-wrap; /* Preserve line breaks */
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Harjoitus 5, Tehtävä 2</h1>
+
+  <h2>Eka tiedosto:</h2>
+  <pre>
+    <code>
+const getName = () => "Anna Grajek";
+const getLocation = () => "Helsinki";
+const BIRTHDAY = "21.05.1981";
+
+module.exports = {
+  getName,
+  getLocation,
+  BIRTHDAY,
+};
+    </code>
+  </pre>
+
+  <h2>Toka tiedosto:</h2>
+  <pre>
+    <code>
+const userModule = require("./h5task2");
+
+const name = userModule.getName();
+const location = userModule.getLocation();
+const birthday = userModule.BIRTHDAY;
+
+console.log(`${name} lives in ${location} and was born on ${birthday}.`);
+    </code>
+  </pre>
+
+</body>
+</html>
