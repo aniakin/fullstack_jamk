@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laske Summan</title>
+  <style>
+    pre {
+      background-color: #f4f4f4;
+      padding: 10px;
+      border: 1px solid #ddd;
+      white-space: pre-wrap; /* Preserve line breaks */
+    }
+  </style>
+</head>
+<body>
+  <h2>Eka tiedosto:</h2>
+  <pre>
+    <code>
+Tekstitiedosto jossa luvut: 1,3,4,6,10,12
+    </code>
+  </pre>
+
+  <h2>Toka tiedosto:</h2>
+  <pre>
+    <code>
+        const fs = require('fs');
+
+        function calculateSum() {
+          const filename = 'h5task3';
+          
+          fs.readFile(filename, 'utf8', (err, data) => {
+            if (err) {
+              console.error('Lukuvirhe tiedostossa:', err);
+              return;
+            }
+        
+            const numbers = data.split(',').map(num => parseInt(num.trim(), 10));
+        
+            const sum = numbers.reduce((acc, num) => acc + num, 0);
+        
+            console.log('Summa on', sum);
+          });
+        }
+        
+        console.log('Lue tiedoston luvut ja tulosta näytölle lukujen summan...');
+        calculateSum();
+    </code>
+  </pre>
+
+</body>
+</html>
