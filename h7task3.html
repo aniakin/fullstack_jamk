@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MongoDB</title>
+  <style>
+    pre {
+      background-color: #f4f4f4;
+      padding: 10px;
+      border: 1px solid #ddd;
+      white-space: pre-wrap; 
+    }
+    .screenshot {
+            max-width: 50%;
+            height: auto;
+            display: block;
+            margin-bottom: 20px; 
+    }
+  </style>
+</head>
+<body>
+  <h2>Index.js - lähdekoodi</h2>
+  <pre>
+    <code>
+
+        const express = require('express');
+const mongoose = require('mongoose');
+const app = express();
+const port = 3000;
+
+mongoose.connect('mongodb+srv://aniakin:********@cluster0.87t0nuc.mongodb.net/', { useNewUrlParser: true, useUnifiedTopology: true });
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+  console.log('Connected to MongoDB');
+});
+
+const userSchema = new mongoose.Schema({
+  name: String,
+});
+
+const User = mongoose.model('User', userSchema);
+
+const logger = (request, response, next) => {
+  const date = new Date();
+  const lDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+  const log = `${lDate}: ${request.method} ${request.url}\n`;
+
+  console.log(log);
+  next();
+};
+
+app.use(logger);
+app.use(express.json());
+
+app.post('/users', async (request, response) => {
+  const { name } = request.body;
+  const user = new User({ name });
+
+  try {
+    const savedUser = await user.save();
+    response.json(savedUser);
+  } catch (error) {
+    response.status(500).json({ error: 'Error saving user to the database.' });
+  }
+});
+
+app.get('/users', async (request, response) => {
+  try {
+    const users = await User.find({});
+    response.json(users);
+  } catch (error) {
+    response.status(500).json({ error: 'Error fetching users from the database.' });
+  }
+});
+
+app.get('/users/:id', async (request, response) => {
+  try {
+    const user = await User.findById(request.params.id);
+    if (user) {
+      response.json(user);
+    } else {
+      response.status(404).end();
+    }
+  } catch (error) {
+    response.status(500).json({ error: 'Error fetching user from the database.' });
+  }
+});
+
+app.delete('/users/:id', async (request, response) => {
+  try {
+    const deletedUser = await User.findByIdAndRemove(request.params.id);
+    if (deletedUser) {
+      response.json(deletedUser);
+    } else {
+      response.status(404).end();
+    }
+  } catch (error) {
+    response.status(500).json({ error: 'Error deleting user from the database.' });
+  }
+});
+
+app.put('/users/:id', (request, response) => {
+  const { id } = request.params;
+  const { name } = request.query;
+  const user = users.find(user => user.id === id);
+  if (user) {
+    user.name = name;
+    response.status(200).end();
+  } else {
+    response.status(204).end();
+  }
+});
+
+app.post('/users/', (request, response) => {
+  const maxId = Math.max(...users.map(user => parseInt(user.id, 10)), 0);
+  const user = request.body;
+  user.id = (maxId + 1).toString();
+  users = users.concat(user);
+  response.json(user);
+});
+
+app.listen(port, () => {
+  console.log(`Server listening at http://localhost:${port}`);
+});
+        
+    </code>
+  </pre>
+
+  <h2>Kuvakappaukset</h2>
+
+  <img src="images/mongoose.png" alt="Mongoose" class="screenshot">
+  <img src="images/postman.png" alt="Postman" class="screenshot">
+  <img src="images/compass.png" alt="Compass" class="screenshot">
+
+</body>
+</html>
