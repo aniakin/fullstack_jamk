@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo-sovellus</title>
+  <style>
+    pre {
+      background-color: #f4f4f4;
+      padding: 10px;
+      border: 1px solid #ddd;
+      white-space: pre-wrap; 
+    }
+    .screenshot {
+            max-width: 50%;
+            height: auto;
+            display: block;
+            margin-bottom: 20px; 
+    }
+  </style>
+</head>
+<body>
+  <h2>Index.js - lähdekoodi</h2>
+  <pre>
+    <code>
+        const express = require('express');
+        const cors = require('cors');
+        const mongoose = require('mongoose');
+        
+        const app = express();
+        const port = 3000;
+        
+        app.use(cors());
+        app.use(express.json());
+        
+        const mongoDB = 'mongodb+srv://aniakin:*******@cluster0.87t0nuc.mongodb.net/your_database_name';
+        mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+        
+        const db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'connection error:'));
+        db.once('open', function () {
+          console.log('Database connected');
+        });
+        
+        const todoSchema = new mongoose.Schema({
+          text: { type: String, required: true }
+        });
+        
+        const Todo = mongoose.model('Todo', todoSchema, 'todos');
+        
+        app.get('/todos', async (req, res) => {
+          const todos = await Todo.find({});
+          res.json(todos);
+        });
+        
+        app.post('/todos', async (req, res) => {
+          try {
+            const { text } = req.body;
+            const todo = new Todo({ text });
+            const savedTodo = await todo.save();
+            res.json(savedTodo);
+          } catch (error) {
+            console.error(error);
+            res.status(500).send('Internal Server Error');
+          }
+        });
+        
+        app.delete('/todos/:id', async (req, res) => {
+          const deletedTodo = await Todo.findByIdAndRemove(req.params.id);
+          if (deletedTodo) res.json(deletedTodo);
+          else res.status(404).end();
+        });
+        
+        app.listen(port, () => {
+          console.log(`Server is running on http://localhost:${port}`);
+        });
+        const express = require('express');
+        const cors = require('cors');
+        const mongoose = require('mongoose');
+        
+        const app = express();
+        const port = 3000;
+        
+        app.use(cors());
+        app.use(express.json());
+        
+        const mongoDB = 'mongodb+srv://aniakin:*******@cluster0.87t0nuc.mongodb.net/your_database_name';
+        mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+        
+        const db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'connection error:'));
+        db.once('open', function () {
+          console.log('Database connected');
+        });
+        
+        const todoSchema = new mongoose.Schema({
+          text: { type: String, required: true }
+        });
+        
+        const Todo = mongoose.model('Todo', todoSchema, 'todos');
+        
+        app.get('/todos', async (req, res) => {
+          const todos = await Todo.find({});
+          res.json(todos);
+        });
+        
+        app.post('/todos', async (req, res) => {
+          try {
+            const { text } = req.body;
+            const todo = new Todo({ text });
+            const savedTodo = await todo.save();
+            res.json(savedTodo);
+          } catch (error) {
+            console.error(error);
+            res.status(500).send('Internal Server Error');
+          }
+        });
+        
+        app.delete('/todos/:id', async (req, res) => {
+          const deletedTodo = await Todo.findByIdAndRemove(req.params.id);
+          if (deletedTodo) res.json(deletedTodo);
+          else res.status(404).end();
+        });
+        
+        app.listen(port, () => {
+          console.log(`Server is running on http://localhost:${port}`);
+        });
+                
+    </code>
+  </pre>
+
+  <h2>Code.js - lähdekoodi</h2>
+  <pre>
+    <code>
+        async function init() {
+            let infoText = document.getElementById('infoText')
+            infoText.innerHTML = 'Loading todos from the server, please wait...'
+            loadTodos()
+          }
+          
+          async function loadTodos() {
+            let response = await fetch('http://localhost:3000/todos')
+            let todos = await response.json()
+            showTodos(todos)
+          }
+          
+          function createTodoListItem(todo) {
+            let li = document.createElement('li')
+            let li_attr = document.createAttribute('id')
+            li_attr.value = todo._id
+            li.setAttributeNode(li_attr)
+            let text = document.createTextNode(todo.text)
+            li.appendChild(text)
+            let span = document.createElement('span')
+            let span_attr = document.createAttribute('class')
+            span_attr.value = 'delete'
+            span.setAttributeNode(span_attr)
+            let x = document.createTextNode(' x ')
+            span.appendChild(x)
+            span.onclick = function () { removeTodo(todo._id) }
+            li.appendChild(span)
+            return li
+          }
+          
+          function showTodos(todos) {
+            let todosList = document.getElementById('todosList')
+            let infoText = document.getElementById('infoText')
+            if (todos.length === 0) {
+              infoText.innerHTML = 'No todos'
+            } else {
+              todos.forEach(todo => {
+                let li = createTodoListItem(todo)
+                todosList.appendChild(li)
+              })
+              infoText.innerHTML = ''
+            }
+          }
+          
+          async function addTodo() {
+            let newTodo = document.getElementById('newTodo')
+            const data = { 'text': newTodo.value }
+            const response = await fetch('http://localhost:3000/todos', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+            })
+            let todo = await response.json()
+            let todosList = document.getElementById('todosList')
+            let li = createTodoListItem(todo)
+            todosList.appendChild(li)
+          
+            let infoText = document.getElementById('infoText')
+            infoText.innerHTML = ''
+            newTodo.value = ''
+          }
+          
+          async function removeTodo(id) {
+            const response = await fetch(`http://localhost:3000/todos/${id}`, {
+              method: 'DELETE'
+            })
+            let responseJson = await response.json()
+            let li = document.getElementById(id)
+            li.parentNode.removeChild(li)
+          
+            let todosList = document.getElementById('todosList')
+            if (!todosList.hasChildNodes()) {
+              let infoText = document.getElementById('infoText')
+              infoText.innerHTML = 'No todos'
+            }
+          }          
+    </code>
+  </pre>
+
+</body>
+</html>
